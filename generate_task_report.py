@@ -2,8 +2,7 @@ import os
 import json
 from datetime import datetime, timezone
 from fpdf import FPDF
-from fetch_and_save import get_valid_tokens, fetch_and_save_data
-from config_manager import load_config, CONFIG_PLACEHOLDERS
+from fetch_and_save import fetch_and_save_data
 
 # Constants
 CONFIG_PATH = "creds/config.json"
@@ -11,12 +10,6 @@ REPORTS_DIR = "data/"  # Save reports in the data directory
 API_TASKS = "/v1/tasks"
 API_CASES = "/v1/cases"
 TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%dT00:00:00Z")
-
-def fetch_data(endpoint, entity_name):
-    """Fetch data from a MyCase API endpoint."""
-    config = load_config(CONFIG_PATH, CONFIG_PLACEHOLDERS)
-    tokens = get_valid_tokens(config)
-    return fetch_and_save_data(endpoint, entity_name)  # Returns JSON data
 
 def merge_tasks_with_cases(tasks, cases):
     """Attach case names to tasks based on case ID."""
@@ -30,8 +23,8 @@ def merge_tasks_with_cases(tasks, cases):
 
 def fetch_tasks():
     """Fetch and merge tasks with case names."""
-    tasks = fetch_data(API_TASKS, "tasks")
-    cases = fetch_data(API_CASES, "cases")
+    tasks = fetch_and_save_data(API_TASKS, "tasks")
+    cases = fetch_and_save_data(API_CASES, "cases")
 
     # Filter for incomplete tasks and merge with case names
     tasks = [t for t in tasks if t.get("due_date") and not t.get("completed", False)]
