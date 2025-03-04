@@ -5,11 +5,9 @@ from fpdf import FPDF
 from fetch_and_save import fetch_and_save_data
 
 # Constants
-CONFIG_PATH = "creds/config.json"
 REPORTS_DIR = "data/"  # Save reports in the data directory
 API_TASKS = "/v1/tasks"
 API_CASES = "/v1/cases"
-TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%dT00:00:00Z")
 
 def merge_tasks_with_cases(tasks, cases):
     """Attach case names to tasks based on case ID."""
