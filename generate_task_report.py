@@ -6,8 +6,6 @@ from fetch_and_save import fetch_and_save_data
 
 # Constants
 REPORTS_DIR = "data/"  # Save reports in the data directory
-API_TASKS = "/v1/tasks"
-API_CASES = "/v1/cases"
 
 def merge_tasks_with_cases(tasks, cases):
     """Attach case names to tasks based on case ID."""
@@ -21,8 +19,8 @@ def merge_tasks_with_cases(tasks, cases):
 
 def fetch_tasks():
     """Fetch and merge tasks with case names."""
-    tasks = fetch_and_save_data(API_TASKS, "tasks")
-    cases = fetch_and_save_data(API_CASES, "cases")
+    tasks = fetch_and_save_data("v1", "tasks")
+    cases = fetch_and_save_data("v1", "cases")
 
     # Filter for incomplete tasks and merge with case names
     tasks = [t for t in tasks if t.get("due_date") and not t.get("completed", False)]
